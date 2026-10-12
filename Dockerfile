@@ -1,6 +1,7 @@
 FROM kalilinux/kali-rolling
 
-ENV DEBIAN_FRONTEND=noninteractive LANG=en_US.UTF-8 TERM=xterm-256color
+ENV DEBIAN_FRONTEND=noninteractive LANG=en_US.UTF-8 TERM=xterm-256color \
+    UV_TOOL_DIR=/opt/uv-tools UV_TOOL_BIN_DIR=/usr/local/bin
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl wget git jq rsync sqlite3 openssh-server sudo \
@@ -24,8 +25,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
 RUN curl -fsSL https://astral.sh/uv/install.sh | sh \
     && install -m 0755 /root/.local/bin/uv /usr/local/bin/uv \
     && install -m 0755 /root/.local/bin/uvx /usr/local/bin/uvx \
-    && uv tool install hermes-agent \
-    && ln -sf /root/.local/bin/hermes /usr/local/bin/hermes
+    && uv tool install hermes-agent
 
 RUN wget -qO /usr/local/bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.3/ttyd.x86_64 \
     && chmod 0755 /usr/local/bin/ttyd \
