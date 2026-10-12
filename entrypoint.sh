@@ -48,8 +48,8 @@ if [[ -n "$TOKEN" ]]; then
   [[ -n "$KALI_REPO" ]] && nohup /usr/local/bin/kali-sync watch >/var/log/kali-sync.log 2>&1 &
 fi
 
-: "${PORT:=7681}"
+: "${TTYD_PORT:=7681}"
 : "${USERNAME:=root}"
-if [[ -n "$ROOT_PASSWORD" ]]; then exec /usr/local/bin/ttyd -p "$PORT" -c "$USERNAME:$ROOT_PASSWORD" /bin/bash -l; fi
+if [[ -n "$ROOT_PASSWORD" ]]; then exec /usr/local/bin/ttyd -p "$TTYD_PORT" -c "$USERNAME:$ROOT_PASSWORD" /bin/bash -l 2> >(sed -E 's/(credential:).*/\1 [REDACTED]/' >&2); fi
 echo 'Set ROOT_PASSWORD Railway variable before starting ttyd.' >&2
-exec /usr/local/bin/ttyd -p "$PORT" /bin/bash -l
+exec /usr/local/bin/ttyd -p "$TTYD_PORT" /bin/bash -l 2> >(sed -E 's/(credential:).*/\1 [REDACTED]/' >&2)
