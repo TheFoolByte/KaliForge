@@ -30,7 +30,7 @@ fi
 if [[ "$(get '.ninerouter.enabled')" != false ]]; then
   ROUTER_DATA=$(get '.ninerouter.data_dir'); mkdir -p "$ROUTER_DATA"
   if [[ ! -s "$ROUTER_DATA/api-key-secret" ]]; then openssl rand -hex 32 > "$ROUTER_DATA/api-key-secret"; chmod 0600 "$ROUTER_DATA/api-key-secret"; fi
-  env -u PORT DATA_DIR="$ROUTER_DATA" PORT="$(get '.ninerouter.port')" API_KEY_SECRET="$(<"$ROUTER_DATA/api-key-secret")" HOSTNAME=0.0.0.0 NODE_ENV=production nohup 9router --no-browser --skip-update >/var/log/9router.log 2>&1 &
+  env -u PORT DATA_DIR="$ROUTER_DATA" PORT="$(get '.ninerouter.port')" API_KEY_SECRET="$(<"$ROUTER_DATA/api-key-secret")" INITIAL_PASSWORD="$ROOT_PASSWORD" HOSTNAME=0.0.0.0 NODE_ENV=production nohup 9router --no-browser --skip-update >/var/log/9router.log 2>&1 &
 fi
 if [[ "$(get '.hermes.enabled')" != false ]]; then
   if [[ -n "$ROOT_PASSWORD" ]]; then
